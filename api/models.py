@@ -18,7 +18,7 @@ class Card(models.Model):
 class Point(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='cardpoint')
-
+	
 class Reward(models.Model):
 	redeemed = models.BooleanField(default=False)
 	date = models.DateTimeField(auto_now_add=True)

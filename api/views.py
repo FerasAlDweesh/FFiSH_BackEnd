@@ -16,14 +16,14 @@ class CardList(ListAPIView):
 	permission_classes = [IsAuthenticated]
 
 	def perform_create(self, serializer):
-		serializer.save(customer=self.request.user)
+		serializer.save(uservendor=self.request.user)
 
 class VendorList(ListAPIView):
 	queryset = Vendor.objects.all()
 	serializer_class = VendorSerializer
 	permission_classes = [IsAuthenticated]
 
-class PointList(ListAPIView):
+class Point(CreateAPIView):
 	queryset = Point.objects.all()
 	serializer_class = PointSerializer
 
