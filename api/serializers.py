@@ -20,15 +20,20 @@ class UserCreateSerializer(serializers.ModelSerializer):
         new_user.save()
         return validated_data
 
+class VendorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vendor
+        fields = ['name', 'image', 'points', 'id']
+
 class CardSerializer(serializers.ModelSerializer):
+    vendor = VendorSerializer()
+    # points = serializers.SerializerMethodField()
     class Meta:
         model = Card
         fields = [ 'vendor', 'id']
 
-class VendorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Vendor
-        fields = ['name', 'image', 'points', 'user', 'id']
+        # def get_points(self, obj):
+        #     return obj.points % obj.vendor.points 
 
 class VendorCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +43,7 @@ class VendorCreateSerializer(serializers.ModelSerializer):
 class PointSerializer(serializers.ModelSerializer):
     class Meta:
         model = Point
-        fields = ['date', 'card']
+        fields = ['card']
 
 class RewardSerializer(serializers.ModelSerializer):
     class Meta:

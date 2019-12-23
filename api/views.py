@@ -11,17 +11,26 @@ class UserCreateAPIView(CreateAPIView):
 	serializer_class = UserCreateSerializer
 
 class CardList(ListAPIView):
-	queryset = Card.objects.all()
+	# queryset = Card.objects.all()
 	serializer_class = CardSerializer
 	# permission_classes = [IsAuthenticated]
 
-	def perform_create(self, serializer):
-		serializer.save(customer=self.request.user)
+	def get_queryset(self):
+		return Card.objects.filter(user=self.request.user)
+
+# class CardCreateAPIView(CreateAPIView):
+# 	queryset = Card.objects.all()
+# 	serializer_class = CardSerializer
+# 	# permission_classes = [IsAuthenticated]
+
+# 	def perform_create(self, serializer):
+# 		serializer.save(uservendor=self.request.user)
 
 class VendorList(ListAPIView):
 	queryset = Vendor.objects.all()
 	serializer_class = VendorSerializer
 	# permission_classes = [IsAuthenticated]
+
 
 class VendorCreate(CreateAPIView):
 	serializer_class = VendorCreateSerializer
