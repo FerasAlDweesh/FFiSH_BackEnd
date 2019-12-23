@@ -8,7 +8,7 @@ from .serializers import UserCreateSerializer, CardSerializer, VendorSerializer,
 # from .permissions import IsOrderOwner
 
 class UserCreateAPIView(CreateAPIView):
-    serializer_class = UserCreateSerializer
+	serializer_class = UserCreateSerializer
 
 class CardList(ListAPIView):
 	queryset = Card.objects.all()
@@ -21,10 +21,14 @@ class CardList(ListAPIView):
 class VendorList(ListAPIView):
 	queryset = Vendor.objects.all()
 	serializer_class = VendorSerializer
-	permission_classes = [IsAuthenticated]
+	# permission_classes = [IsAuthenticated]
 
 class VendorCreate(CreateAPIView):
 	serializer_class = VendorCreateSerializer
+
+	 
+	def perform_create(self, serializer):
+		serializer.save(user=self.request.user)
 	
 class PointList(ListAPIView):
 	queryset = Point.objects.all()

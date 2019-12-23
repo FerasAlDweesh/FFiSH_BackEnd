@@ -21,17 +21,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return validated_data
 
 class CardSerializer(serializers.ModelSerializer):
-    points = serializers.SerializerMethodField()
     class Meta:
         model = Card
-        fields = ['points', 'vendor', 'id']
+        fields = [ 'vendor', 'id']
 
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = ['name', 'image', 'points', 'user', 'id']
 
-class VendorCreateSerializer(Serializers.ModelSerializer):
+class VendorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
         fields = ['name', 'image', 'points']
