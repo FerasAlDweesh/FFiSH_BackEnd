@@ -4,7 +4,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 from .models import Card, Vendor, Point, Reward
-from .serializers import UserCreateSerializer, CardSerializer, VendorSerializer, PointSerializer, RewardSerializer, ProfileSerializer
+from .serializers import UserCreateSerializer, CardSerializer, VendorSerializer, VendorCreateSerializer, PointSerializer, RewardSerializer, ProfileSerializer
 # from .permissions import IsOrderOwner
 
 class UserCreateAPIView(CreateAPIView):
@@ -13,7 +13,7 @@ class UserCreateAPIView(CreateAPIView):
 class CardList(ListAPIView):
 	queryset = Card.objects.all()
 	serializer_class = CardSerializer
-	permission_classes = [IsAuthenticated]
+	# permission_classes = [IsAuthenticated]
 
 	def perform_create(self, serializer):
 		serializer.save(customer=self.request.user)
@@ -23,6 +23,9 @@ class VendorList(ListAPIView):
 	serializer_class = VendorSerializer
 	permission_classes = [IsAuthenticated]
 
+class VendorCreate(CreateAPIView):
+	serializer_class = VendorCreateSerializer
+	
 class PointList(ListAPIView):
 	queryset = Point.objects.all()
 	serializer_class = PointSerializer

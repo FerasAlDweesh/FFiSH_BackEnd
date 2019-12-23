@@ -8,6 +8,9 @@ class Vendor(models.Model):
 	points = models.PositiveIntegerField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uservendor')
 
+	def __str__(self):
+		return self.name
+
 class Card(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='usercard')
 	vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='vendors')

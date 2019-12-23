@@ -4,6 +4,7 @@ from .views import (
 UserCreateAPIView,
 CardList,
 VendorList,
+VendorCreate,
 PointList,
 RewardList,
 ProfileDetails,
@@ -16,6 +17,7 @@ urlpatterns = [
   
     path('cards/', CardList.as_view(), name='card-list'),
     path('vendors/', VendorList.as_view(), name='vendor-list'),
+    path('vendors/create/', VendorCreate.as_view(), name='vendor-create'),
     path('points/', PointList.as_view(), name='points'),
     path('Rewards/', RewardList.as_view(), name='rewards'),
 
