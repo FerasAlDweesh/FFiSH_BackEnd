@@ -23,9 +23,7 @@ class Point(models.Model):
 	card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='points')
 	
 class Reward(models.Model):
-	redeemed = models.BooleanField(default=False)
 	date = models.DateTimeField(auto_now_add=True)
-	redeem_date = models.DateTimeField(null=True, blank=True)
 	card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='cardreward')
 
 
