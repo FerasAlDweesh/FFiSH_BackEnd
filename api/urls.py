@@ -5,7 +5,7 @@ UserCreateAPIView,
 CardList,
 VendorList,
 VendorCreate,
-PointList,
+Point,
 RewardList,
 ProfileDetails,
 )
@@ -19,7 +19,7 @@ urlpatterns = [
     path('vendors/', VendorList.as_view(), name='vendor-list'),
 
     path('vendors/create/', VendorCreate.as_view(), name='vendor-create'),
-    path('points/', PointList.as_view(), name='points'),
+    path('points/', Point.as_view(), name='points'),
 
     path('Rewards/', RewardList.as_view(), name='rewards'),
 
