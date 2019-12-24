@@ -33,6 +33,7 @@ class VendorList(ListAPIView):
 
 
 class VendorCreate(CreateAPIView):
+	queryset = Vendor.objects.all()
 	serializer_class = VendorCreateSerializer
 
 	 
