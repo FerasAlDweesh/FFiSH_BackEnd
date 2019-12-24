@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Vendor(models.Model):
 	name = models.CharField(max_length=100)
-	image = models.ImageField(null=True, blank=True)
+	image = models.ImageField(null=True, blank=True, upload_to='vendor_images')
 	points = models.PositiveIntegerField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uservendor')
 
