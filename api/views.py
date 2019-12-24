@@ -39,7 +39,7 @@ class VendorCreate(CreateAPIView):
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
 	
-class PointList(ListAPIView):
+class Point(CreateAPIView):
 	queryset = Point.objects.all()
 	serializer_class = PointSerializer
 
