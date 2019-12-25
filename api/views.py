@@ -44,7 +44,7 @@ class Point(CreateAPIView):
 	queryset = Point.objects.all()
 	serializer_class = PointSerializer
 
-class RewardList(ListAPIView):
+class Reward(CreateAPIView):
 	queryset = Reward.objects.all()
 	serializer_class = RewardSerializer
 

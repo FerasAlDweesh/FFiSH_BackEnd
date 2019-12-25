@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Vendor(models.Model):
 	name = models.CharField(max_length=100)
-	image = models.ImageField(null=True, blank=True)
+	image = models.ImageField(null=True, blank=True, upload_to='vendor_images')
 	points = models.PositiveIntegerField()
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uservendor')
 
@@ -23,9 +23,7 @@ class Point(models.Model):
 	card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='points')
 	
 class Reward(models.Model):
-	redeemed = models.BooleanField(default=False)
 	date = models.DateTimeField(auto_now_add=True)
-	redeem_date = models.DateTimeField(null=True, blank=True)
 	card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='cardreward')
 
 
