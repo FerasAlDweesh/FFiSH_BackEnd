@@ -21,19 +21,35 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return validated_data
 
 class VendorSerializer(serializers.ModelSerializer):
+    user_points = serializers.SerializerMethodField()
     class Meta:
         model = Vendor
-        fields = ['name', 'image', 'points', 'id']
+        fields = ['name', 'image', 'points', 'id', 'user_points']
+
+    def get_user_points(self, obj):
+        request = self.context['request']
+        if request.user.is_authenticated:
+            try:
+                points = Card.objects.get(vendor=obj, user=request.user).points.count()
+                return points%obj.points
+            except:
+                return None
+        else:
+            return None
+
 
 class CardSerializer(serializers.ModelSerializer):
     vendor = VendorSerializer()
-    # points = serializers.SerializerMethodField()
+    points = serializers.SerializerMethodField()
+    rewards = serializers.SerializerMethodField()
     class Meta:
         model = Card
-        fields = [ 'vendor', 'id']
+        fields = [ 'vendor', 'id', 'points']
 
-        # def get_points(self, obj):
-        #     return obj.points % obj.vendor.points 
+    def get_points(self, obj):
+        return obj.points.count()
+    def get_rewards(self, obj):
+        return obj.rewards.count()
 
 class VendorCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,10 +61,10 @@ class PointSerializer(serializers.ModelSerializer):
         model = Point
         fields = ['card']
 
-class RewardSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Reward
-        fields = ['status', 'date', 'card', 'id']
+# class RewardSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Reward
+#         fields = ['date', 'card', 'id']
 
 class ProfileSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()

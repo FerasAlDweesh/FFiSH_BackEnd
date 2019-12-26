@@ -41,8 +41,14 @@ class VendorCreate(CreateAPIView):
 		serializer.save(user=self.request.user)
 	
 class Point(CreateAPIView):
-	queryset = Point.objects.all()
 	serializer_class = PointSerializer
+
+	# def perform_create(self, serializer):
+	# 	serializer.save()
+	# 	card = Card.objects.get(id=serializer.data['card'])
+	# 	if card.points.count()%card.vendor.points == 0:
+	# 		Reward.objects.create(card=card)
+
 
 class Reward(CreateAPIView):
 	queryset = Reward.objects.all()

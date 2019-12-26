@@ -6,7 +6,7 @@ CardList,
 VendorList,
 VendorCreate,
 Point,
-Reward,
+# Reward,
 ProfileDetails,
 )
 
@@ -21,7 +21,7 @@ urlpatterns = [
     path('vendors/create/', VendorCreate.as_view(), name='vendor-create'),
     path('points/', Point.as_view(), name='points'),
 
-    path('Rewards/', Reward.as_view(), name='rewards'),
+    # path('Rewards/', Reward.as_view(), name='rewards'),
 
     path('profile/', ProfileDetails.as_view(), name="profile"),
 ]
