@@ -23,17 +23,13 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class VendorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
-        fields = ['name', 'image', 'points', 'id']
+        fields = ['name', 'image', 'points', 'category', 'id']
 
 class CardSerializer(serializers.ModelSerializer):
     vendor = VendorSerializer()
-    # points = serializers.SerializerMethodField()
     class Meta:
         model = Card
         fields = [ 'vendor', 'id']
-
-        # def get_points(self, obj):
-        #     return obj.points % obj.vendor.points 
 
 class VendorCreateSerializer(serializers.ModelSerializer):
     class Meta:
