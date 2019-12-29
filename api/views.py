@@ -2,10 +2,12 @@ from django.contrib.auth.models import User
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from datetime import datetime
 from .models import Card, Vendor, Point, Reward
 from .serializers import UserCreateSerializer, CardSerializer, VendorSerializer, VendorCreateSerializer, PointSerializer, RewardSerializer, ProfileSerializer
-# from .permissions import IsOrderOwner
+
 
 class UserCreateAPIView(CreateAPIView):
 	serializer_class = UserCreateSerializer
@@ -43,6 +45,14 @@ class VendorCreate(CreateAPIView):
 class Point(CreateAPIView):
 	queryset = Point.objects.all()
 	serializer_class = PointSerializer
+
+class CreatePoint(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request):
+		card_obj, created = Card.objects.get_or_create(user=request.user, vendor=request.data.get("vendor"))
+		point_obj = Point.objects.create(card=card_obj)
+		return Response(status=status.HTTP_201_CREATED)
 
 class Reward(CreateAPIView):
 	queryset = Reward.objects.all()

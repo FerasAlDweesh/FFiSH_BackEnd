@@ -40,6 +40,7 @@ class VendorCreateSerializer(serializers.ModelSerializer):
         model = Vendor
         fields = ['name', 'image', 'points']
 
+# Point Create:
 class PointSerializer(serializers.ModelSerializer):
     class Meta:
         model = Point
