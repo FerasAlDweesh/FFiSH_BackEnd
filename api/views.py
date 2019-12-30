@@ -21,14 +21,6 @@ class CardList(ListAPIView):
 	def get_queryset(self):
 		return Card.objects.filter(user=self.request.user)
 
-# class CardCreateAPIView(CreateAPIView):
-# 	queryset = Card.objects.all()
-# 	serializer_class = CardSerializer
-# 	# permission_classes = [IsAuthenticated]
-
-# 	def perform_create(self, serializer):
-# 		serializer.save(uservendor=self.request.user)
-
 class VendorList(ListAPIView):
 	queryset = Vendor.objects.all()
 	serializer_class = VendorSerializer
@@ -43,9 +35,15 @@ class VendorCreate(CreateAPIView):
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
 	
-# class Point(CreateAPIView):
-# 	queryset = Point.objects.all()
-# 	serializer_class = PointSerializer
+class Point(RetrieveAPIView):
+	queryset = Point.objects.all()
+	serializer_class = PointSerializer
+
+
+	def get_object(self):
+		vendor_points = Vendor.objects.get("points")
+		return vendor_points % self.points
+
 
 class CreatePoint(APIView):
 	permission_classes = [IsAuthenticated]
