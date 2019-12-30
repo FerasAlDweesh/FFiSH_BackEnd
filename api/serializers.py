@@ -43,7 +43,7 @@ class CardSerializer(serializers.ModelSerializer):
 class VendorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
-        fields = ['name', 'image', 'points',]
+        fields = ['name', 'image', 'points', 'category']
 
 class PointSerializer(serializers.ModelSerializer):
     class Meta:

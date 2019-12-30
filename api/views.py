@@ -18,10 +18,8 @@ class CardList(ListAPIView):
     serializer_class = CardSerializer
     # permission_classes = [IsAuthenticated]
 
-    # def get(self, request):
-    #     cards = Card.objects.get(request.user)
-    #     serializer = CardSerializer(cards, many=True)
-    #     return Response(serializer.data)
+    def get_queryset(self):
+        return self.request.user.usercard
 
 class VendorList(ListAPIView):
     queryset = Vendor.objects.all()
