@@ -40,11 +40,11 @@ class VendorCreate(CreateAPIView):
 class CreatePoint(APIView):
     permission_classes = [IsAuthenticated]
 
-	def post(self, request):
-		vendor_obj = Vendor.objects.get(id=request.data.get('vendor'))
-		card_obj, created = Card.objects.get_or_create(user=request.user, vendor=vendor_obj)
-		point_obj = Point.objects.create(card=card_obj)
-		return Response(status=status.HTTP_201_CREATED)
+    def post(self, request):
+        vendor_obj = Vendor.objects.get(id=request.data.get('vendor'))
+        card_obj, created = Card.objects.get_or_create(user=request.user, vendor=vendor_obj)
+        point_obj = Point.objects.create(card=card_obj)
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class Reward(CreateAPIView):
