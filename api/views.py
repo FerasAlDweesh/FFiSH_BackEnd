@@ -4,6 +4,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from datetime import datetime
 from .models import Card, Vendor, Point, Reward
 from .serializers import UserCreateSerializer, CardSerializer, VendorSerializer, VendorCreateSerializer, PointSerializer, RewardSerializer, ProfileSerializer, DashboardSerializer
@@ -22,14 +23,6 @@ class CardList(ListAPIView):
     #     serializer = CardSerializer(cards, many=True)
     #     return Response(serializer.data)
 
-# class CardCreateAPIView(CreateAPIView):
-#   queryset = Card.objects.all()
-#   serializer_class = CardSerializer
-#   # permission_classes = [IsAuthenticated]
-
-#   def perform_create(self, serializer):
-#       serializer.save(uservendor=self.request.user)
-
 class VendorList(ListAPIView):
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
@@ -39,22 +32,20 @@ class VendorList(ListAPIView):
 class VendorCreate(CreateAPIView):
     queryset = Vendor.objects.all()
     serializer_class = VendorCreateSerializer
-
      
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-    
-class Point(CreateAPIView):
-    queryset = Point.objects.all()
-    serializer_class = PointSerializer
+
 
 class CreatePoint(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        card_obj, created = Card.objects.get_or_create(user=request.user, vendor=request.data.get("vendor"))
-        point_obj = Point.objects.create(card=card_obj)
-        return Response(status=status.HTTP_201_CREATED)
+	def post(self, request):
+		vendor_obj = Vendor.objects.get(id=request.data.get('vendor'))
+		card_obj, created = Card.objects.get_or_create(user=request.user, vendor=vendor_obj)
+		point_obj = Point.objects.create(card=card_obj)
+		return Response(status=status.HTTP_201_CREATED)
+
 
 class Reward(CreateAPIView):
     queryset = Reward.objects.all()
