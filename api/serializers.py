@@ -7,7 +7,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     class Meta:
         model = User
-        fields = ['username', 'password', 'first_name', 'last_name', 'email']
+        fields = ['username', 'password', 'first_name', 'last_name', 'email', 'id']
 
     def create(self, validated_data):
         username = validated_data['username']
@@ -27,10 +27,23 @@ class VendorSerializer(serializers.ModelSerializer):
 
 class CardSerializer(serializers.ModelSerializer):
     vendor = VendorSerializer()
+    user = serializers.SerializerMethodField()
     # points = serializers.SerializerMethodField()
     class Meta:
         model = Card
-        fields = [ 'vendor', 'id']
+        fields = [ 'vendor', 'id', 'user']
+
+    def get(self, request):
+        cards = Card.objects.get(request.user)
+        serializer = CardSerializer(cards, many=True)
+        return Response(serializer.data)
+
+    def get_user(self, obj):
+        return "%s %s" % (obj.user.first_name, obj.user.last_name)
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return user.card.all()
 
         # def get_points(self, obj):
         #     return obj.points % obj.vendor.points 
@@ -38,13 +51,24 @@ class CardSerializer(serializers.ModelSerializer):
 class VendorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
-        fields = ['name', 'image', 'points']
+        fields = ['name', 'image', 'points',]
 
 # Point Create:
 class PointSerializer(serializers.ModelSerializer):
     class Meta:
         model = Point
         fields = ['card']
+
+class DashboardSerializer(serializers.ModelSerializer):
+    user = UserCreateSerializer()
+    points = serializers.SerializerMethodField()
+    class Meta:
+        model = Card
+        fields = ['id', 'user', 'points' ]
+
+    def get_points(self, obj):
+        return obj.points.count()
+
 
 class RewardSerializer(serializers.ModelSerializer):
     class Meta:

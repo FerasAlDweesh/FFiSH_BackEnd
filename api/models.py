@@ -6,7 +6,7 @@ class Vendor(models.Model):
 	name = models.CharField(max_length=100)
 	image = models.ImageField(null=True, blank=True, upload_to='vendor_images')
 	points = models.PositiveIntegerField()
-	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uservendor')
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='uservendor')
 
 	def __str__(self):
 		return self.name
